@@ -75,6 +75,8 @@ pycparser==2.21
 pycups==2.0.1
 PyDispatcher==2.0.6
 PyGObject==3.42.1
+pyinstaller==5.6.2
+pyinstaller-hooks-contrib==2022.13
 PyJWT==2.3.0
 pymacaroons==0.13.0
 PyNaCl==1.5.0
