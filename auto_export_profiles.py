@@ -27,7 +27,7 @@ def filter_profile_list(profiles: list) -> pd.DataFrame:
         'zip' : [x['zip'] for x in profiles],
         'country' : [x['country'] for x in profiles],
         'provider' : [x['provider'] for x in profiles],
-        'created_at' : ["" for x in profiles],
+        'created_at' : [x['created_at'] for x in profiles],
         'last_sign_in_at' : [x['last_sign_in_at'] for x in profiles],
         'open_to_remote' : [x['open_to_remote'] for x in profiles],
         'open_to_relocation' : [x['open_to_relocation'] for x in profiles],
