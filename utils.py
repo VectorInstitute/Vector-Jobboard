@@ -9,7 +9,7 @@ def get_requests_loop(url: str, key: str, api_key: str) -> list:
 
     headers = {
         "accept": "application/json",
-        # "JobBoardioURL": "demo.jobboard.io",
+        "JobBoardioURL": "https://talenthub.vectorinstitute.ai/",
         "X-Api-Key": api_key
     }
 
