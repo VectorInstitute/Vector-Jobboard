@@ -1,9 +1,11 @@
+import configparser
+
 from auto_export_employers import filter_employer_list
 from auto_export_jobs import filter_joblist
 from auto_export_profiles import filter_profile_list
-import configparser
+from git import push_to_github
 from utils import get_requests_loop
-import os
+
 
 def main():
     config = configparser.ConfigParser()
@@ -67,20 +69,15 @@ def main():
 
     # push CSV to GitHub
     print('pushing to GitHub...')
-    commands = [
-        "git fetch --all",
-        "git add -f profileExport.csv jobExport.csv employerExport.csv",
-        "git stash push -m export profileExport.csv jobExport.csv employerExport.csv",
-        "git checkout gh-pages",
-        "git pull origin gh-pages --rebase",
-        "git cherry-pick -n -m1 -Xtheirs stash",
-        'git commit -m "Update all exports"',
-        'git push',
-        'git checkout main'
-    ]
 
-    for com in commands:
-        os.system(com)
+    push_to_github(
+        [
+            'profileExport.csv',
+            'jobExport.csv',
+            'employerExport.csv'
+        ],
+        message = 'Update all exports from python'
+    )
 
     print("### DONE ###")
 
