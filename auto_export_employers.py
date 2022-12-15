@@ -24,10 +24,10 @@ def filter_employer_list(employers: list) -> pd.DataFrame:
         'country' : [x['country'] for x in employers],
         'created_at' : [x['created_at'] for x in employers],
         'jobs_count' : [x['active_jobs_count'] for x in employers],
-        'Approval Notes' : [x['custom_field_answers']['approval_notes'] if 'approval_notes' in x['custom_field_answers'].keys() else "" for x in employers],
-        'Approved Employer?' : [x['custom_field_answers']['approved_employer'] if 'approved_employer' in x['custom_field_answers'].keys() else "" for x in employers],
-        'Industry Sector' : [x['custom_field_answers']['industry_sector'] if 'industry_sector' in x['custom_field_answers'].keys() else "" for x in employers],
-        'Relationship to the Vector Institute' : [x['custom_field_answers']['relationship_to_the_vector_institute'] if 'relationship_to_the_vector_institute' in x['custom_field_answers'].keys() else "" for x in employers],
+        'approval_notes' : [x['custom_field_answers']['approval_notes'] if 'approval_notes' in x['custom_field_answers'].keys() else "" for x in employers],
+        'approved_employer' : [x['custom_field_answers']['approved_employer'] if 'approved_employer' in x['custom_field_answers'].keys() else "" for x in employers],
+        'industry_sector' : [x['custom_field_answers']['industry_sector'] if 'industry_sector' in x['custom_field_answers'].keys() else "" for x in employers],
+        'relationship_to_the_vector_institute' : [x['custom_field_answers']['relationship_to_the_vector_institute'] if 'relationship_to_the_vector_institute' in x['custom_field_answers'].keys() else "" for x in employers],
     })
 
     return filtered_employers

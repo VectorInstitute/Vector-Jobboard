@@ -28,12 +28,12 @@ def filter_joblist(jobs: list) -> pd.DataFrame:
         'status' : [x['status'] for x in jobs],
         'published_at' : [x['published_at'] for x in jobs],
         'source_name' : [x['source_name'] for x in jobs],
-        'Company Size' : [x['custom_field_answers']['company_size'] if 'company_size' in x['custom_field_answers'].keys() else "" for x in jobs],
-        'Email Applications' : [x['custom_field_answers']['email_applications_or_application_click_through'] if 'email_applications_or_application_click_through' in x['custom_field_answers'].keys() else "" for x in jobs],
-        'Job Industry' : [", ".join(x['custom_field_answers']['job_industry']) if 'job_industry' in x['custom_field_answers'].keys() else "" for x in jobs],
-        'Level of Experience' : [x['custom_field_answers']['level_of_experience'] if 'level_of_experience' in x['custom_field_answers'].keys() else "" for x in jobs],
-        'Minimum Degree Level' : [x['custom_field_answers']['minimum_degree_level'] if 'minimum_degree_level' in x['custom_field_answers'].keys() else "" for x in jobs],
-        'New Posting or Re-Post' : [x['custom_field_answers']['new_posting_or_repost'] if 'new_posting_or_repost' in x['custom_field_answers'].keys() else "" for x in jobs],
+        'company_size' : [x['custom_field_answers']['company_size'] if 'company_size' in x['custom_field_answers'].keys() else "" for x in jobs],
+        'email_applications_or_application_click_through' : [x['custom_field_answers']['email_applications_or_application_click_through'] if 'email_applications_or_application_click_through' in x['custom_field_answers'].keys() else "" for x in jobs],
+        'job_industry' : [", ".join(x['custom_field_answers']['job_industry']) if 'job_industry' in x['custom_field_answers'].keys() else "" for x in jobs],
+        'level_of_experience' : [x['custom_field_answers']['level_of_experience'] if 'level_of_experience' in x['custom_field_answers'].keys() else "" for x in jobs],
+        'minimum_degree_level' : [x['custom_field_answers']['minimum_degree_level'] if 'minimum_degree_level' in x['custom_field_answers'].keys() else "" for x in jobs],
+        'new_posting_or_repost' : [x['custom_field_answers']['new_posting_or_repost'] if 'new_posting_or_repost' in x['custom_field_answers'].keys() else "" for x in jobs],
         'Type of Job Opportunity' : ["" for x in jobs],
     })
 
