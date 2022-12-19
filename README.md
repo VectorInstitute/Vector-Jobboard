@@ -12,6 +12,25 @@ api_key = <your_key_here>
 access_token = <your_access_token_here>
 ```
 
+### Jobboard Api Key
+The API key for Jobboard can be found here: [https://canadaai.jobboard.io/admin/api_keys](https://canadaai.jobboard.io/admin/api_keys)
+
+### Github Access Token
+To obtain your github access token for the above `config.ini` file, use the followings steps:
+1. Log into [github.com](https://github.com)
+2. In the top right corner, click on your logo and go to **Settings**
+3. At the very bottom of the left-hand side, click **Developer settings**
+4. On the left-had side click **Personal access token** and then **Tokens (classic)**
+5. Click **Generate new token** and then click **Generate new token (classic)**
+6. Give the token whatever name you want in the **Note** section
+7. Turn the **Expiration** to **No expiration**
+8. Click the button to checkmark **repo** (Full control of private repositories)
+9. Scroll to the bottom and click **Generate token**
+10. Copy the generated token and place it in your `config.ini` file
+
+## Usage
+TODO
+
 ## Troubleshooting
 ### Executable not working
 If either the `pull_all_exports.exe` or `mass_edit.exe` are not working, here are the steps to re-create them:
@@ -19,7 +38,7 @@ If either the `pull_all_exports.exe` or `mass_edit.exe` are not working, here ar
 ```
 python -m pip install -r requirements.txt
 ```
-2. Create the executable with the command (with either `pull_all_exports.exe` or `mass_edit.exe`)
+2. Create the executable with the command (with either `pull_all_exports.py` or `mass_edit.py`)
 ```
 pyinstaller --onefile <filename>
 ```
