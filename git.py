@@ -14,13 +14,13 @@ def push_to_github(fnames: list[str], message: str = "") -> None:
     g = Github(access_token)
     repo = g.get_user().get_repo('Vector-Jobboard') # repo name
     
-    master_ref = repo.get_git_ref('heads/main')
+    master_ref = repo.get_git_ref('heads/gh-pages')
     master_sha = master_ref.object.sha
     base_tree = repo.get_git_tree(master_sha)
 
     element_list = list()
     for i, entry in enumerate(fnames):
-        with open(entry) as input_file:
+        with open(entry, encoding="utf8") as input_file:
             data = input_file.read()
         if entry.endswith('.png'): # images must be encoded
             data = base64.b64encode(data)
