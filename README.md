@@ -30,7 +30,15 @@ To obtain your github access token for the above `config.ini` file, use the foll
 
 ## Usage
 ### Get all Exports
-To obtain all the exports (jobs, profile, employer) from Jobboard, simply run the `pull_all_exports.exe` file and wait for it to finish. Once it is complete, visit whichever shared Google sheet you are interested in (in the shared Google drive). In the menu bar you will see **REFRESH HERE**, click that, followed by **Refresh Data** and wait for the script to finish running. 
+To obtain all the exports (jobs, profile, employer) from Jobboard, simply run the `pull_all_exports.exe` file and wait for it to finish. Once it is complete, visit whichever shared Google sheet you are interested in (in the shared Google drive). In the menu bar you will see **REFRESH HERE**, click that, followed by **Refresh Data** and wait for the script to finish running.
+
+You may get an error message saying:
+```
+ValueError: Response is bad:
+<Response [500]>
+```
+
+In this case, simply re-run the program and it should work.
 
 ### Mass Edit
 TODO
