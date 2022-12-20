@@ -12,6 +12,7 @@ def filter_employer_list(employers: list) -> pd.DataFrame:
         'description': [x['description'] for x in employers],
         'phone': [x['phone'] for x in employers],
         'url' : [x['url'] for x in employers],
+        'website' : [x['website'] for x in employers],
         'logo_url' : [x['logo'] for x in employers],
         'hero_url' : [x['hero'] for x in employers],
         'video_vimeo' : [x['video_vimeo'] for x in employers],
