@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import requests
+import json
 
 CUSTOM_PROFILE_FIELDS = [
     'vector_affiliation_categories',
@@ -37,6 +38,18 @@ CUSTOM_EMPLOYER_FIELDS = [
     'relationship_to_the_vector_institute',
 ]
 
+class NpEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.integer):
+            return int(obj)
+        elif isinstance(obj, np.floating):
+            return float(obj)
+        elif isinstance(obj, np.ndarray):
+            return obj.tolist()
+        elif isinstance(obj, np.bool_):
+            return bool(obj)
+        return super(NpEncoder, self).default(obj)
+
 def jobs_mass_upload(df: pd.DataFrame, key: str) -> None:
     # TODO: fix this because it's not working
     
@@ -54,11 +67,11 @@ def jobs_mass_upload(df: pd.DataFrame, key: str) -> None:
     
     url = "https://canadaai.jobboard.io/api/v1/jobs/"
     headers = {
-        "content-type": "application/json",
         "X-Api-Key": key,
-        'accept': 'application/json',
+        'accept': 'text/plain',
         "JobBoardioURL": "https://talenthub.vectorinstitute.ai/",
-    }
+        'content-type' : 'application/json'
+}   
 
     fields = df.columns
 
@@ -77,17 +90,15 @@ def jobs_mass_upload(df: pd.DataFrame, key: str) -> None:
             if field in CUSTOM_JOB_FIELDS:
                 if not ('custom_field_answers' in payload.keys()):
                     payload['custom_field_answers'] = {}
-                payload['custom_field_answers'][field] = bool(df[field][i]) if isinstance(df[field][i], np.bool_) else df[field][i]
+                payload['custom_field_answers'][field] = df[field][i]
             else:
-                payload[field] = bool(df[field][i]) if isinstance(df[field][i], np.bool_) else df[field][i]
-        print(payload)
-        r = requests.patch(curr_url, json = payload, headers=headers)
-        print(curr_url)
-        print(r)
-        print(r.text)
-        print(r.reason)
-        print(r.request)
-        print(r.status_code)
+                payload[field] = df[field][i]
+        r = requests.request(
+            "PATCH",
+            curr_url,
+            data = json.dumps(payload, cls = NpEncoder),
+            headers=headers
+        )
 
     return None
 
@@ -96,8 +107,9 @@ def profiles_mass_upload(df: pd.DataFrame, key: str) -> None:
     url = "https://canadaai.jobboard.io/api/v1/profiles/"
     headers = {
         "X-Api-Key": key,
-        'accept': 'application/json',
+        'accept': 'text/plain',
         "JobBoardioURL": "https://talenthub.vectorinstitute.ai/",
+        'content-type' : 'application/json'
     }
 
     fields = df.columns
@@ -113,10 +125,15 @@ def profiles_mass_upload(df: pd.DataFrame, key: str) -> None:
             if field in CUSTOM_PROFILE_FIELDS:
                 if not ('custom_field_answers' in payload.keys()):
                     payload['custom_field_answers'] = {}
-                payload['custom_field_answers'][field] = bool(df[field][i]) if isinstance(df[field][i], np.bool_) else df[field][i]
+                payload['custom_field_answers'][field] = df[field][i]
             else:
-                payload[field] = bool(df[field][i]) if isinstance(df[field][i], np.bool_) else df[field][i]
-        r = requests.request("PATCH", curr_url, json = payload, headers=headers)
+                payload[field] = df[field][i]
+        r = requests.request(
+            "PATCH",
+            curr_url,
+            data = json.dumps(payload, cls = NpEncoder),
+            headers=headers
+        )
    
     return None
 
@@ -125,8 +142,9 @@ def employers_mass_upload(df: pd.DataFrame, key: str) -> None:
     url = "https://canadaai.jobboard.io/api/v1/employers/"
     headers = {
         "X-Api-Key": key,
-        'accept': 'application/json',
+        'accept': 'text/plain',
         "JobBoardioURL": "https://talenthub.vectorinstitute.ai/",
+        'content-type' : 'application/json'
     }
 
     fields = df.columns
@@ -142,9 +160,14 @@ def employers_mass_upload(df: pd.DataFrame, key: str) -> None:
             if field in CUSTOM_EMPLOYER_FIELDS:
                 if not ('custom_field_answers' in payload.keys()):
                     payload['custom_field_answers'] = {}
-                payload['custom_field_answers'][field] = bool(df[field][i]) if isinstance(df[field][i], np.bool_) else df[field][i]
+                payload['custom_field_answers'][field] = df[field][i]
             else:
-                payload[field] = bool(df[field][i]) if isinstance(df[field][i], np.bool_) else df[field][i]
-        r = requests.request("PATCH", curr_url, json = payload, headers=headers)
+                payload[field] = df[field][i]
+        r = requests.request(
+            "PATCH",
+            curr_url,
+            data = json.dumps(payload, cls = NpEncoder),
+            headers=headers
+        )
 
     return None

@@ -17,15 +17,21 @@ def main():
     root.withdraw()
     file_path = filedialog.askopenfilename()
 
-    df = pd.read_csv(file_path, index_col=False, keep_default_na=False)
+    df = pd.read_csv(
+        file_path,
+        index_col=False,
+        keep_default_na=False,
+        true_values = ['TRUE'],
+        false_values = ['FALSE']
+    )
 
     filename = os.path.basename(file_path)
     
-    if 'jobs' in filename:
+    if filename == 'Job Export - Sheet1.csv':
         jobs_mass_upload(df, KEY)
-    elif 'profiles' in filename:
+    elif filename == 'Profile Export - Sheet1.csv':
         profiles_mass_upload(df, KEY)
-    elif 'employers' in filename:
+    elif filename == 'Employer Export - Sheet1.csv':
         employers_mass_upload(df, KEY)
     else:
         raise ValueError(f'File name ({filename}) does not include one of: [jobs, profiles, employers]')
