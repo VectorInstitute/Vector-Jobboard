@@ -6,6 +6,7 @@ from typing import *
 
 def filter_joblist(jobs: list) -> pd.DataFrame:
     filtered_jobs = pd.DataFrame({
+        'token' : [x['token'] for x in jobs],
         'id' : [x['id'] for x in jobs],
         'company' : [x['company'] for x in jobs],
         'title': [x['title'] for x in jobs],
