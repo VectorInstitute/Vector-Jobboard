@@ -51,18 +51,17 @@ class NpEncoder(json.JSONEncoder):
         return super(NpEncoder, self).default(obj)
 
 def jobs_mass_upload(df: pd.DataFrame, key: str) -> None:
-    # TODO: fix this because it's not working
     
-    REQUIRED_FIELDS = [
-        'id',
-        'title',
-        'company',
-        'location',
-        'description',
-        'contact_email',
-        'apply_email',
-        'apply_url',
-    ]
+    # REQUIRED_FIELDS = [
+    #     'token',
+    #     'title',
+    #     'company',
+    #     'location',
+    #     'description',
+    #     'contact_email',
+    #     'apply_email',
+    #     'apply_url',
+    # ]
     
     
     url = "https://canadaai.jobboard.io/api/v1/jobs/"
@@ -71,21 +70,21 @@ def jobs_mass_upload(df: pd.DataFrame, key: str) -> None:
         'accept': 'text/plain',
         "JobBoardioURL": "https://talenthub.vectorinstitute.ai/",
         'content-type' : 'application/json'
-}   
+    }
 
     fields = df.columns
 
-    for field in REQUIRED_FIELDS:
-        if not any(field == fields):
-            raise ValueError(f'Did not supply all required fields: {field}')
+    # for field in REQUIRED_FIELDS:
+    #     if not any(field == fields):
+    #         raise ValueError(f'Did not supply all required fields: {field}')
 
     for i in range(df.shape[0]):
-        token = df['id'][i]
+        token = df['token'][i]
         curr_url = url + str(token)
         payload = dict()
 
         for field in fields:
-            if field == 'id':
+            if field == 'token':
                 continue
             if field in CUSTOM_JOB_FIELDS:
                 if not ('custom_field_answers' in payload.keys()):
@@ -99,6 +98,8 @@ def jobs_mass_upload(df: pd.DataFrame, key: str) -> None:
             data = json.dumps(payload, cls = NpEncoder),
             headers=headers
         )
+        print(r.text)
+        print(r.status_code)
 
     return None
 
