@@ -46,7 +46,7 @@ Use the following steps to bulk update jobs, profiles, or employers:
 1. Start at the desired Google sheet
 2. Download a CSV version of the file (**File > Download > Comma Separated Values (.csv)**) and save it in the same folder as the `mass_edit.exe` (**do not rename the CSV**)
 3. Remove all columns that you do not wish to update 
-   - **Never remove the ID column**
+   - **Never remove the first column (either called ID or token)**
 4. Remove the rows that you do not wish to update. Each row corresponds to a job, profile, or employer
 5. Update the values that you need to (you can leave values unchanged as well)
 6. Run the `mass_edit.exe` and select the file that you have just edited. All changes will make their way to Jobboard
