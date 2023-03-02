@@ -2,7 +2,7 @@ import requests
 import json
 from typing import *
 
-MAX_GET = 500
+MAX_GET = 200
 
 def get_requests_loop(url: str, key: str, api_key: str) -> list:
     all_responses = []

@@ -12,7 +12,7 @@ def push_to_github(fnames: list[str], message: str = "") -> None:
     config.read('config.ini')
     access_token = config['GITHUB']['access_token']
     g = Github(access_token)
-    repo = g.get_user().get_repo('Vector-Jobboard') # repo name
+    repo = g.get_repo('VectorInstitute/Vector-Jobboard') # repo name
     
     master_ref = repo.get_git_ref('heads/gh-pages')
     master_sha = master_ref.object.sha
