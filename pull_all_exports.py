@@ -1,17 +1,14 @@
-import configparser
+import sys
 
 from auto_export_employers import filter_employer_list
 from auto_export_jobs import filter_joblist
 from auto_export_profiles import filter_profile_list
-from git import push_to_github
 from utils import get_requests_loop
 
 
 def main():
-    config = configparser.ConfigParser()
-    config.read('config.ini')
-    API_KEY = config['JOBBOARD']['api_key']
 
+    API_KEY = sys.argv[1]
 
     # employer export
     BASE_URL_EMPLOYER = 'https://canadaai.jobboard.io/api/v1/employers'
@@ -65,19 +62,6 @@ def main():
     print('filtering profiles...')
     filtered_profiles = filter_profile_list(all_profiles)
     filtered_profiles.to_csv('profileExport.csv', index=False)
-
-
-    # push CSV to GitHub
-    print('pushing to GitHub...')
-
-    push_to_github(
-        [
-            'profileExport.csv',
-            'jobExport.csv',
-            'employerExport.csv'
-        ],
-        message = 'Update all exports from python'
-    )
 
     print("### DONE ###")
 

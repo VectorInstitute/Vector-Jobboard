@@ -53,23 +53,6 @@ def main() -> None:
     filtered_employers = filter_employer_list(all_employers)
     filtered_employers.to_csv('employerExport.csv', index=False)
 
-    # push CSV to GitHub
-    print('pushing to GitHub...')
-    commands = [
-        "git fetch --all",
-        "git add -f employerExport.csv",
-        "git stash push -m export employerExport.csv",
-        "git checkout gh-pages",
-        "git pull origin gh-pages --rebase",
-        "git cherry-pick -n -m1 -Xtheirs stash",
-        'git commit -m "Update employer export"',
-        'git push',
-        'git checkout main'
-    ]
-
-    for com in commands:
-        os.system(com)
-
     print("### DONE ###")
     return None
 

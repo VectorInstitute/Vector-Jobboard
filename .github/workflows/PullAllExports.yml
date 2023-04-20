@@ -1,4 +1,4 @@
-name: Export Jobs
+name: Pull All Exports
 
 on: workflow_dispatch
 
@@ -16,15 +16,17 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-    - name: Get new job export
-      run: python auto_export.py
-    - name: Commit XMLs on gh-pages
+    - name: Pull all exports
+      run: python pull_all_exports.py ${{ secrets.JOBBOARD_TOKEN }}
+    - name: Commit CSVs on gh-pages
       run: |
         git fetch --all
         git config --local user.email "adam.renkosinski@vectorinstitute.ai"
         git config --local user.name "Adam-Renkosinski"
-        git add -f export.csv
-        git stash push -m "Job export" export.csv
+        git add -f employerExport.csv
+        git add -f jobExport.csv
+        git add -f profileExport.csv
+        git stash push -m "All exports"
         git checkout gh-pages
         git pull origin gh-pages --rebase
         git cherry-pick -n -m1 -Xtheirs stash
