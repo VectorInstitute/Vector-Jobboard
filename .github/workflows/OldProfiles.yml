@@ -1,0 +1,38 @@
+name: Old Profiles
+
+on:
+  schedule:
+    - cron: '0 13 * * 2,4'  # Runs on Tuesdays and Thursdays at 8:00 AM EST
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2.3.4
+    - name: Setup python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Pull all old profiles
+      run: python find_profiles_to_hide.py ${{ secrets.JOBBOARD_TOKEN }}
+    - name: Commit CSVs on gh-pages
+      run: |
+        git fetch --all
+        git config --local user.email "adam.renkosinski@vectorinstitute.ai"
+        git config --local user.name "Adam-Renkosinski"
+        git add -f OldProfiles_ProfilesExport.csv
+        git stash push -m "Old profiles"
+        git checkout gh-pages
+        git pull origin gh-pages --rebase
+        git cherry-pick -n -m1 -Xtheirs stash
+        git commit -m "Update old profiles"
+    - name: Push changes
+      uses: ad-m/github-push-action@v0.6.0
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: gh-pages
