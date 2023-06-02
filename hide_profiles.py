@@ -32,7 +32,10 @@ def main():
 
         response = requests.request("GET", url, headers=headers)
         data = json.loads(response.text)
-        if data['profile']['hidden'] or data['profile']['hidden'] == 'True':
+        try:
+            if data['profile']['hidden'] or data['profile']['hidden'] == 'True':
+                continue
+        except:
             continue
         payload = {"hidden": True}
         response = requests.request("PATCH", url, json=payload, headers=headers)
