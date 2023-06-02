@@ -5,6 +5,7 @@ import sys
 
 def main():
 
+    print(sys.argv)
     API_KEY = sys.argv[1]
     JOBBOARD_API_KEY = sys.argv[2]
 
@@ -31,13 +32,12 @@ def main():
 
         response = requests.request("GET", url, headers=headers)
         data = json.loads(response.text)
-        print((data['profile']['hidden']))
-        print(data['profile']['custom_field_answers']['approved_profile'])
+        if data['profile']['hidden'] or data['profile']['hidden'] == 'True':
+            continue
         payload = {"hidden": True}
         response = requests.request("PATCH", url, json=payload, headers=headers)
         response = requests.request("GET", url, headers=headers)
         data = json.loads(response.text)
-        print((data['profile']['hidden']))
 
 if __name__ == "__main__":
     main()
