@@ -1,7 +1,8 @@
 name: Pull All Exports
 
 on:
-  workflow_dispatch:
+  schedule:
+    - cron: '0 13 * * 2,4'  # Runs on Tuesdays and Thursdays at 8:00 AM EST
 
 jobs:
   run:
