@@ -15,8 +15,7 @@ def split_dataframe(dataframe, chunk_size):
     current_size = 0
 
     for index, row in dataframe.iterrows():
-        row_size = row.memory_usage(deep=True).sum()
-
+        row_size = row.memory_usage(deep=True)
         if current_size + row_size > chunk_size:
             chunks.append(current_chunk)
             current_chunk = pd.DataFrame(columns=dataframe.columns)
