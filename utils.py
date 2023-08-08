@@ -1,8 +1,34 @@
 import requests
 import json
 from typing import *
+import pandas as pd
 
 MAX_GET = 50
+
+# Calculate the target file size in bytes (50 MB)
+target_file_size = 50 * 1024 * 1024
+
+# Splitting data into chunks based on size
+def split_dataframe(dataframe, chunk_size):
+    chunks = []
+    current_chunk = pd.DataFrame(columns=dataframe.columns)
+    current_size = 0
+
+    for index, row in dataframe.iterrows():
+        row_size = row.memory_usage(deep=True).sum()
+
+        if current_size + row_size > chunk_size:
+            chunks.append(current_chunk)
+            current_chunk = pd.DataFrame(columns=dataframe.columns)
+            current_size = 0
+
+        current_chunk = current_chunk.append(row)
+        current_size += row_size
+
+    if not current_chunk.empty:
+        chunks.append(current_chunk)
+
+    return chunks
 
 def get_requests_loop(url: str, key: str, api_key: str) -> list:
     all_responses = []

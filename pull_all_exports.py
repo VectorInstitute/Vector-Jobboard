@@ -3,7 +3,7 @@ import sys
 from auto_export_employers import filter_employer_list
 from auto_export_jobs import filter_joblist
 from auto_export_profiles import filter_profile_list
-from utils import get_requests_loop
+from utils import get_requests_loop, split_dataframe
 
 
 def main():
@@ -45,6 +45,18 @@ def main():
     # filter jobs and export to CSV
     print('filtering jobs...')
     filtered_jobs = filter_joblist(all_jobs)
+
+    target_file_size = 50 * 1024 * 1024
+
+    data_chunks = split_dataframe(filtered_jobs, target_file_size)
+
+    # Export each chunk to a separate CSV file
+    for idx, chunk in enumerate(data_chunks):
+        filename = f'jobExport_chunk{idx}.csv'
+        chunk.to_csv(filename, index=False)
+
+    print("CSV files saved in 50 MB chunks.")
+
     filtered_jobs.to_csv('jobExport.csv', index=False)
 
 
