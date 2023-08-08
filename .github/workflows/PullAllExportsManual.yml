@@ -1,4 +1,4 @@
-name: Pull All Exports
+name: Pull All Exports Manual
 
 on: workflow_dispatch
 
