@@ -57,9 +57,6 @@ def main():
 
     print("CSV files saved in 50 MB chunks.")
 
-    filtered_jobs.to_csv('jobExport.csv', index=False)
-
-
     # profiles export
     BASE_URL_PROFILES = 'https://canadaai.jobboard.io/api/v1/profiles'
     KEY_PROFILES = 'profiles'

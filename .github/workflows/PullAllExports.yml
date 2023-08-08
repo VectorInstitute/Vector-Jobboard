@@ -26,7 +26,7 @@ jobs:
         git config --local user.email "adam.renkosinski@vectorinstitute.ai"
         git config --local user.name "Adam-Renkosinski"
         git add -f employerExport.csv
-        git add -f jobExport.csv
+        git add -f jobExport_chunk*
         git add -f profileExport.csv
         git stash push -m "All exports"
         git checkout gh-pages
