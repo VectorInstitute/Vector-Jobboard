@@ -16,7 +16,7 @@ def filter_profile_list(profiles: list) -> pd.DataFrame:
         'phone' : [x['phone'] for x in profiles],
         'video' : ["" for x in profiles],
         'website' : [x['website'] for x in profiles],
-        'facebook' : [x['facebook'] for x in profiles],
+        #'facebook' : [x['facebook'] for x in profiles], comment no facebook section in profiles
         'linkedin' : [x['linkedin'] for x in profiles],
         'twitter' : [x['twitter'] for x in profiles],
         'hidden' : [x['hidden'] for x in profiles],
