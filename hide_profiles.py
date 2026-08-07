@@ -31,7 +31,10 @@ def main():
         url = "https://canadaai.jobboard.io/api/v1/profiles/" + str(x[ID])
 
         response = requests.request("GET", url, headers=headers)
-        data = json.loads(response.text)
+        try:
+            data = json.loads(response.text)
+        except json.JSONDecodeError:
+            print(f'Warning: non-JSON response fetching profile {x[ID]} (status{response.status_code}), skipping")
         try:
             if data['profile']['hidden'] or data['profile']['hidden'] == 'True':
                 continue
