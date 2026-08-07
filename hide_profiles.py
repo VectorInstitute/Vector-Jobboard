@@ -40,7 +40,11 @@ def main():
         payload = {"hidden": True}
         response = requests.request("PATCH", url, json=payload, headers=headers)
         response = requests.request("GET", url, headers=headers)
-        data = json.loads(response.text)
+        try:
+            data = json.loads(response.text)
+        except json.JSONDecodeError:
+            print(f"Warning: non-JSON response confirming profile {x[ID]} (status {response.status_code}), skipping")
+        continue
 
 if __name__ == "__main__":
     main()
