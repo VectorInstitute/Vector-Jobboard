@@ -34,7 +34,7 @@ def main():
         try:
             data = json.loads(response.text)
         except json.JSONDecodeError:
-            print(f'Warning: non-JSON response fetching profile {x[ID]} (status{response.status_code}), skipping")
+            print(f"Warning: non-JSON response fetching profile {x[ID]} (status{response.status_code}), skipping")
         try:
             if data['profile']['hidden'] or data['profile']['hidden'] == 'True':
                 continue
