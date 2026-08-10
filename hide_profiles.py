@@ -2,6 +2,7 @@ import pandas as pd
 import json
 import requests
 import sys
+import time
 
 def main():
 
@@ -41,6 +42,7 @@ def main():
         response = requests.request("PATCH", url, json=payload, headers=headers)
         response = requests.request("GET", url, headers=headers)
         data = json.loads(response.text)
+        time.sleep(1)
 
 if __name__ == "__main__":
     main()
