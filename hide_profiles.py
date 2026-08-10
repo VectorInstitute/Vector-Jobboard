@@ -31,10 +31,7 @@ def main():
         url = "https://canadaai.jobboard.io/api/v1/profiles/" + str(x[ID])
 
         response = requests.request("GET", url, headers=headers)
-        try:
-            data = json.loads(response.text)
-        except json.JSONDecodeError:
-            print(f"Warning: non-JSON response fetching profile {x[ID]} (status{response.status_code}), skipping")
+        data = json.loads(response.text)
         try:
             if data['profile']['hidden'] or data['profile']['hidden'] == 'True':
                 continue
@@ -43,11 +40,7 @@ def main():
         payload = {"hidden": True}
         response = requests.request("PATCH", url, json=payload, headers=headers)
         response = requests.request("GET", url, headers=headers)
-        try:
-            data = json.loads(response.text)
-        except json.JSONDecodeError:
-            print(f"Warning: non-JSON response confirming profile {x[ID]} (status {response.status_code}), skipping")
-        continue
+        data = json.loads(response.text)
 
 if __name__ == "__main__":
     main()
