@@ -42,7 +42,7 @@ def main():
         response = requests.request("PATCH", url, json=payload, headers=headers)
         response = requests.request("GET", url, headers=headers)
         data = json.loads(response.text)
-        time.sleep(1)
+        time.sleep(10)
 
 if __name__ == "__main__":
     main()
