@@ -15,6 +15,8 @@ BATCH_SIZE = 25
 BATCH_DELAY_MIN = 60
 BATCH_DELAY_MAX = 90
 
+INACTIVE_DAYS_CUTOFF = 182  # 6 months
+
 def request_with_retry(method, url, headers, **kwargs):
     backoff = INITIAL_BACKOFF
     for attempt in range(1, MAX_RETRIES + 1):
@@ -74,19 +76,21 @@ def main():
     csvUrl = data['download_url']
     df = pd.read_csv(csvUrl)
 
-    # The CSV itself already records each profile's current hidden status,
-    # so there's no need to GET and check all of them - only the ones
-    # marked False actually need work. This is what keeps the run well
-    # under GitHub Actions' 6-hour job limit.
+    # Reads CSV hidden status to identify total number of profiles to hide.
     id_col = df.columns[0]
-    if 'hidden' in df.columns:
-        to_process = df[df['hidden'] == False]
-        print(f"Total profiles in CSV: {len(df)}")
-        print(f"Already hidden (skipped, no API call): {len(df) - len(to_process)}")
-        print(f"Needing action: {len(to_process)}")
-    else:
+    if 'hidden' not in df.columns or 'last_sign_in_at' not in df.columns:
+        print("Missing 'hidden' or 'last_sign_in_at' column - falling back to checking every profile.")
         to_process = df
-        print("No 'hidden' column found in CSV - falling back to checking every profile.")
+    else:
+        df['last_sign_in_at'] = pd.to_datetime(df['last_sign_in_at'], utc=True, errors='coerce')
+        cutoff = datetime.now(timezone.utc) - timedelta(days=INACTIVE_DAYS_CUTOFF)
+ 
+        not_hidden = df[df['hidden'] == False]
+        to_process = not_hidden[not_hidden['last_sign_in_at'] < cutoff]
+        print(f"Total profiles: {len(df)}")
+        print(f"Already hidden (skipped): {len(df) - len(not_hidden)}")
+        print(f"Not hidden but signed in within {INACTIVE_DAYS_CUTOFF} days: {len(not_hidden) - len(to_process)}")
+        print(f"Not hidden AND inactive since before {cutoff.date()}: {len(to_process)}")
 
     x = to_process[id_col].dropna().values
     headers = {
